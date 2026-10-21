@@ -1,0 +1,162 @@
+
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ภาพตัด 3 มิติ | Section A–A</title>
+
+  <script type="module"
+    src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.1.0/model-viewer.min.js">
+  </script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, 'Noto Sans Thai', sans-serif;
+      background: #f4f7fa;
+      color: #19334c;
+    }
+
+    header {
+      padding: 20px 16px;
+      text-align: center;
+      background: #fff;
+      border-bottom: 1px solid #e0e7ef;
+    }
+
+    h1 {
+      font-size: clamp(20px, 4vw, 28px);
+      margin: 0 0 5px;
+    }
+
+    header p { margin: 0; color: #5c6d7d; }
+
+    main {
+      max-width: 960px;
+      margin: 20px auto;
+      padding: 0 14px;
+    }
+
+    .viewer {
+      background: #fff;
+      border: 1px solid #e1e8ef;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 5px 25px #1b3a5910;
+    }
+
+    model-viewer {
+      display: block;
+      width: 100%;
+      height: min(68vh, 650px);
+      min-height: 360px;
+      background: radial-gradient(
+        circle, #fff 15%, #e9f0f5 100%
+      );
+      --poster-color: transparent;
+    }
+
+    .tools {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 16px;
+      justify-content: center;
+      border-top: 1px solid #e1e8ef;
+    }
+
+    button, .back {
+      border: 0;
+      border-radius: 12px;
+      padding: 12px 18px;
+      font-size: 15px;
+      font-weight: 600;
+      background: #174d76;
+      color: white;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    .back { background: #e0e9f0; color: #19334c; }
+
+    .help {
+      text-align: center;
+      padding: 0 16px 18px;
+      font-size: 14px;
+      color: #5c6d7d;
+    }
+
+    .error {
+      display: none;
+      margin: 12px 16px;
+      padding: 12px;
+      background: #fff2f2;
+      border-radius: 8px;
+      color: #a12c2c;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>ภาพตัด 3 มิติ — Section A–A</h1>
+    <p>Interactive 3D Section View</p>
+  </header>
+
+  <main>
+    <section class="viewer">
+
+      <model-viewer
+        id="part"
+        src="./section_aa_cad.glb"
+        alt="โมเดลภาพตัด 3 มิติ Section A–A"
+        camera-controls
+        touch-action="pan-y"
+        exposure="1.1"
+        shadow-intensity="0.3"
+        shadow-softness="1"
+        interaction-prompt="auto"
+        camera-orbit="0deg 75deg auto">
+      </model-viewer>
+
+      <div id="error" class="error" role="alert">
+        ไม่สามารถโหลดโมเดล Section A–A ได้
+        โปรดตรวจสอบไฟล์ section_aa_cad.glb
+      </div>
+
+      <div class="tools">
+        <button id="reset" type="button">
+          ↺ คืนมุมมองเริ่มต้น
+        </button>
+
+        <a class="back" href="./index.html">
+          ← กลับไปโมเดลเต็มชิ้น
+        </a>
+      </div>
+
+      <p class="help">
+        ลากเพื่อหมุน • ใช้สองนิ้วหรือล้อเมาส์เพื่อซูมเข้า–ออก
+      </p>
+
+    </section>
+  </main>
+
+  <script>
+    const viewer = document.getElementById('part');
+
+    viewer.addEventListener('error', () => {
+      document.getElementById('error').style.display = 'block';
+    });
+
+    document.getElementById('reset').addEventListener('click', () => {
+      viewer.cameraOrbit = '0deg 75deg auto';
+      viewer.fieldOfView = 'auto';
+      viewer.jumpCameraToGoal();
+    });
+  </script>
+</body>
+</html>
