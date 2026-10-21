@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>เรียนรู้ชิ้นงาน 3 มิติ | โมเดลเต็มชิ้น</title>
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.1.0/model-viewer.min.js"></script>
+  <style>
+    *{box-sizing:border-box}body{margin:0;font-family:system-ui,'Noto Sans Thai',sans-serif;background:#f4f7fa;color:#19334c}
+    header{padding:20px 16px;text-align:center;background:#fff;border-bottom:1px solid #e0e7ef}h1{font-size:clamp(20px,4vw,28px);margin:0 0 5px}p{margin:0;color:#5c6d7d}
+    main{max-width:960px;margin:20px auto;padding:0 14px}.viewer{background:white;border:1px solid #e1e8ef;border-radius:18px;overflow:hidden;box-shadow:0 5px 25px #1b3a5910}
+    model-viewer{display:block;width:100%;height:min(68vh,650px);min-height:360px;background:radial-gradient(circle,#fff 15%,#e9f0f5 100%);--poster-color:transparent}
+    .tools{display:flex;gap:10px;flex-wrap:wrap;padding:16px;justify-content:center;border-top:1px solid #e1e8ef}
+    button{border:0;border-radius:12px;padding:12px 18px;font-size:15px;font-weight:600;cursor:pointer;background:#174d76;color:#fff}
+    button:disabled{cursor:not-allowed;background:#dce4eb;color:#667785}.help{text-align:center;padding:0 16px 18px;font-size:14px}
+    .error{display:none;margin:12px 16px;padding:12px;background:#fff2f2;border-radius:8px;color:#a12c2c}
+  </style>
+</head>
+<body>
+<header><h1>โมเดลชิ้นงาน 3 มิติ — เต็มชิ้น</h1><p>Interactive 3D Engineering Model</p></header>
+<main><section class="viewer">
+  <model-viewer id="part" src="./model_full_cad_v2.glb" alt="โมเดลชิ้นงานวิศวกรรมแบบเต็มชิ้น" camera-controls touch-action="pan-y" shadow-intensity="0.6" exposure="0.9" shadow-softness="0.8" interaction-prompt="auto" camera-orbit="0deg 75deg auto" min-camera-orbit="auto auto 5%" max-camera-orbit="auto auto 500%">
+  </model-viewer>
+  <div id="error" class="error" role="alert">ไม่สามารถโหลดโมเดลได้ โปรดตรวจสอบว่าไฟล์ model_full_cad_v2.glb อยู่ใน Repository เดียวกับ index.html และสะกดชื่อไฟล์ตรงกัน</div>
+  <div class="tools">
+  <button id="reset" type="button">
+    ↺ คืนมุมมองเริ่มต้น
+  </button>
+
+  <button type="button" onclick="window.location.href='./section.html'">
+    Section A–A
+  </button>
+
+  <button type="button" onclick="window.location.href='./section-bb.html'">
+    Section B–B
+  </button>
+
+  <button type="button" onclick="window.location.href='./section-cc.html'">
+    Section C–C
+  </button>
+</div>
+  <p class="help">ลากเพื่อหมุน • ใช้สองนิ้วหรือล้อเมาส์เพื่อซูมเข้า–ออก</p>
+</section></main>
+<script>
+const viewer=document.getElementById('part');
+viewer.addEventListener('error',()=>{document.getElementById('error').style.display='block'});
+document.getElementById('reset').addEventListener('click',()=>{viewer.cameraOrbit='0deg 75deg auto';viewer.fieldOfView='auto';viewer.jumpCameraToGoal();});
+</script>
+</body>
+</html>
