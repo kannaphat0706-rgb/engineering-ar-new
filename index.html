@@ -22,9 +22,23 @@
   <model-viewer id="part" src="./model_full_cad_clear.glb" alt="โมเดลชิ้นงานวิศวกรรมแบบเต็มชิ้น" camera-controls touch-action="pan-y" shadow-intensity="0.6" exposure="0.9" shadow-softness="0.8" interaction-prompt="auto" camera-orbit="0deg 75deg auto" min-camera-orbit="auto auto 5%" max-camera-orbit="auto auto 500%">
   </model-viewer>
   <div id="error" class="error" role="alert">ไม่สามารถโหลดโมเดลได้ โปรดตรวจสอบว่าไฟล์ model_full.glb อยู่ใน Repository เดียวกับ index.html และสะกดชื่อไฟล์ตรงกัน</div>
-  <div class="tools"><button id="reset" type="button">↺ คืนมุมมองเริ่มต้น</button><button type="button" onclick="window.location.href='./section.html'">
-  เข้าสู่โหมดภาพตัด 3 มิติ →
-</button></div>
+  <div class="tools">
+  <button id="reset" type="button">
+    ↺ คืนมุมมองเริ่มต้น
+  </button>
+
+  <button type="button" onclick="window.location.href='./section.html'">
+    Section A–A
+  </button>
+
+  <button type="button" onclick="window.location.href='./section-bb.html'">
+    Section B–B
+  </button>
+
+  <button type="button" onclick="window.location.href='./section-cc.html'">
+    Section C–C
+  </button>
+</div>
   <p class="help">ลากเพื่อหมุน • ใช้สองนิ้วหรือล้อเมาส์เพื่อซูมเข้า–ออก</p>
 </section></main>
 <script>
