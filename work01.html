@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AR ชิ้นงานที่ 1 — โจทย์และเฉลย</title>
+  <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+  <style>
+    body { margin:0; overflow:hidden; font-family:sans-serif; }
+    #hint { position:fixed; top:16px; left:5%; width:90%; box-sizing:border-box; padding:12px; border-radius:12px; background:rgba(255,255,255,.94); text-align:center; z-index:10; font-size:15px; }
+    #viewer { display:none; position:fixed; bottom:22px; left:50%; transform:translateX(-50%); z-index:11; padding:14px 20px; border-radius:28px; background:#164c96; color:white; font-weight:bold; text-decoration:none; white-space:nowrap; }
+    #answer { display:none; position:fixed; inset:0; z-index:20; background:#fff; overflow:auto; text-align:center; }
+    #answer img { display:block; max-width:100%; height:auto; margin:0 auto; padding-bottom:90px; box-sizing:border-box; }
+    #closeAnswer { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); border:0; border-radius:28px; background:#164c96; color:#fff; padding:13px 22px; font-size:16px; font-weight:bold; }
+  </style>
+</head>
+<body>
+  <div id="hint">ส่องกล้องไปที่ Marker โจทย์หรือ Marker เฉลย ชิ้นงานที่ 1</div>
+  <a id="viewer" href="index.html">ดูโมเดล 3 มิติแบบละเอียด</a>
+  <div id="answer" role="dialog" aria-label="แบบงานเฉลย 2 มิติ">
+    <img src="answer_01.jpg" alt="แบบงานเฉลยชิ้นงานที่ 1">
+    <button id="closeAnswer" type="button">กลับไปสแกน</button>
+  </div>
+  <a-scene embedded vr-mode-ui="enabled: false" renderer="logarithmicDepthBuffer: true" arjs="sourceType: webcam; debugUIEnabled: false;">
+    <a-marker id="problemMarker" type="pattern" url="pattern-messageImage_1792396176708.patt">
+      <a-entity gltf-model="url(model_full_cad_v2.glb)" position="0 0 0" rotation="0 0 0" scale="0.0095 0.0095 0.0095"></a-entity>
+    </a-marker>
+    <a-marker id="answerMarker" type="pattern" url="answer-marker.patt">
+      <a-box position="0 -100 0" visible="false"></a-box>
+    </a-marker>
+    <a-entity camera></a-entity>
+  </a-scene>
+  <script>
+    const problemMarker = document.getElementById('problemMarker');
+    const answerMarker = document.getElementById('answerMarker');
+    const viewer = document.getElementById('viewer');
+    const answer = document.getElementById('answer');
+    const hint = document.getElementById('hint');
+    let problemScanned = false;
+    let answerOpen = false;
+    let answerReady = true;
+
+    problemMarker.addEventListener('markerFound', () => {
+      if (answerOpen) return;
+      problemScanned = true;
+      viewer.style.display = 'block';
+      hint.textContent = 'สแกนโจทย์สำเร็จ! สามารถดูโมเดล 3 มิติแบบละเอียดได้';
+    });
+
+    answerMarker.addEventListener('markerFound', () => {
+      if (!answerReady || answerOpen) return;
+      answerOpen = true;
+      answerReady = false;
+      answer.style.display = 'block';
+      viewer.style.display = 'none';
+    });
+
+    answerMarker.addEventListener('markerLost', () => {
+      answerReady = true;
+    });
+
+    document.getElementById('closeAnswer').addEventListener('click', () => {
+      answerOpen = false;
+      answer.style.display = 'none';
+      viewer.style.display = problemScanned ? 'block' : 'none';
+      hint.textContent = 'ส่องกล้องไปที่ Marker โจทย์หรือ Marker เฉลย ชิ้นงานที่ 1';
+      // Require the answer marker to leave the camera view before opening it again.
+      answerReady = !answerMarker.object3D.visible;
+    });
+  </script>
+</body>
+</html>
