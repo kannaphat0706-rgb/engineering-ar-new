@@ -5,7 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0">
-  <title>AR เฉลยภาพตัด - ชิ้นงานที่ 1</title>
+
+  <title>สแกน Marker เฉลยชิ้นงานที่ 1</title>
 
   <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
   <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
@@ -17,84 +18,81 @@
       font-family: sans-serif;
     }
 
-    .header {
+    #instruction {
       position: fixed;
-      top: 12px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 10;
-      background: rgba(255,255,255,0.94);
-      padding: 12px 18px;
+      top: 15px;
+      left: 5%;
+      width: 90%;
+      box-sizing: border-box;
+      padding: 14px;
+      background: rgba(255,255,255,0.95);
       border-radius: 12px;
       text-align: center;
-      width: 82%;
-      max-width: 420px;
-      font-size: 15px;
-      font-weight: bold;
+      z-index: 10;
     }
 
-    .footer {
+    #answer {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: white;
+      z-index: 100;
+      overflow: auto;
+      text-align: center;
+    }
+
+    #answer img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    #back {
       position: fixed;
       bottom: 20px;
       left: 50%;
       transform: translateX(-50%);
-      z-index: 10;
+      padding: 12px 20px;
       background: #1769aa;
       color: white;
-      padding: 12px 18px;
-      border-radius: 12px;
-      text-align: center;
-      font-size: 14px;
-      text-decoration: none;
-      width: 80%;
-      max-width: 360px;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      z-index: 101;
     }
   </style>
 </head>
 
 <body>
 
-  <div class="header">
-    AR เฉลยชิ้นงานที่ 1<br>
-    ส่องกล้องไปที่ Marker เฉลย
+  <div id="instruction">
+    สแกน Marker เฉลยชิ้นงานที่ 1
+    <div>ส่องกล้องไปที่ภาพชิ้นงาน</div>
+  </div>
+
+  <div id="answer">
+    <img src="answer_01.jpg"
+         alt="แบบงานเฉลยชิ้นงานที่ 1">
+
+    <button id="back" onclick="closeAnswer()">
+      กลับไปสแกน
+    </button>
   </div>
 
   <a-scene
     embedded
     vr-mode-ui="enabled: false"
-    renderer="logarithmicDepthBuffer: true"
     arjs="sourceType: webcam; debugUIEnabled: false;">
 
-    <a-assets>
-      <img id="answerImage" src="answer_01.jpg">
-    </a-assets>
-
     <a-marker
-  type="pattern"
-  url="pattern-Picture1.patt">
-      <a-marker
-  type="pattern"
-  url="pattern-Picture1.patt">
+      id="answerMarker"
+      type="pattern"
+      url="pattern-Picture1.patt">
 
-  <a-plane
-    src="#answerImage"
-    position="0 0.02 0"
-    rotation="-90 0 0"
-    width="2"
-    height="1.414"
-    material="side: double; transparent: false">
-  </a-plane>
-
-</a-marker>
-
-      <a-plane
-        src="#answerImage"
-        position="0 0.02 0"
-        rotation="-90 0 0"
-        width="2"
-        height="1.414"
-        material="side: double; transparent: false">
-      </a-plane>
+      <a-box
+        position="0 -100 0"
+        visible="false">
+      </a-box>
 
     </a-marker>
 
@@ -102,11 +100,18 @@
 
   </a-scene>
 
-  <a class="footer"
-     href="answer_01.jpg"
-     target="_blank">
-    เปิดภาพเฉลยเต็มหน้าจอ
-  </a>
+  <script>
+    const marker = document.getElementById("answerMarker");
+    const answer = document.getElementById("answer");
+
+    marker.addEventListener("markerFound", function () {
+      answer.style.display = "block";
+    });
+
+    function closeAnswer() {
+      answer.style.display = "none";
+    }
+  </script>
 
 </body>
 </html>
