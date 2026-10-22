@@ -101,17 +101,31 @@
   </a-scene>
 
   <script>
-    const marker = document.getElementById("answerMarker");
-    const answer = document.getElementById("answer");
+  const marker = document.getElementById("answerMarker");
+  const answer = document.getElementById("answer");
 
-    marker.addEventListener("markerFound", function () {
+  let answerOpened = false;
+  let waitingForMarkerExit = false;
+
+  marker.addEventListener("markerFound", function () {
+    if (!answerOpened && !waitingForMarkerExit) {
       answer.style.display = "block";
-    });
-
-    function closeAnswer() {
-      answer.style.display = "none";
+      answerOpened = true;
     }
-  </script>
+  });
+
+  marker.addEventListener("markerLost", function () {
+    waitingForMarkerExit = false;
+  });
+
+  function closeAnswer() {
+    answer.style.display = "none";
+    answerOpened = false;
+
+    // ต้องยกกล้องออกจาก Marker ก่อนสแกนใหม่
+    waitingForMarkerExit = marker.object3D.visible;
+  }
+</script>
 
 </body>
 </html>
